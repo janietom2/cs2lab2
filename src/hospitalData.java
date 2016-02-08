@@ -53,12 +53,40 @@ public class hospitalData {
         double[] sums = new double[7];
 
         for(c = 0; c < a.length; c++){
+            sum = 0;
             for(r = 0; r < a[c].length; r++){
                 sum += a[c][r];
                 sums[c] = sum/6;
             }
         }
         return sums;
+    }
+
+    public static double avgOfWeek(double[][] a){
+        double sum = 0;
+        double[] sums = new double[7];
+
+        for(c = 0; c < a.length; c++){
+            sum = 0;
+            for(r = 0; r < a[c].length; r++){
+                sum += a[c][r];
+                sums[c] = sum;
+            }
+        }
+        sum = 0;
+        for(x = 0; x < sums.length; x++){
+            sum += sums[x];
+        }
+        return sum/7;
+    }
+
+    public static double maxTempWeek(double[][] a){
+
+        for(c = 0; c < a.length){
+
+        }
+
+        return
     }
 
 
@@ -75,7 +103,13 @@ public class hospitalData {
 
         methodSeparator(20);
 
+        System.out.println("The average temperature of a patient over the week at times T1, T2, T3, T4, T5, and T6:");
+        System.out.println("Average of week: " + df.format(avgOfWeek(data)));
 
+        methodSeparator(20);
+
+        System.out.println("The maximum temperature of a patient over the week at each times of " +
+                "the day T1, T2, T3, T4, T5, and T6:");
 
     }
 
