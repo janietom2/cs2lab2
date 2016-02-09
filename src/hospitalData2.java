@@ -3,7 +3,6 @@ import java.text.DecimalFormat;
 import java.util.*;
 
 public class hospitalData2 {
-    static Scanner fileScanner;
     static int c = 0;
     static int r = 0;
     static int x = 0;
@@ -22,54 +21,82 @@ public class hospitalData2 {
 
     /// Methods
     public static double[][] dataOnArray(String fileName){
-        writeFile file = new writeFile();
         double[][] data = new double[7][];
-        x = 0;
-        y = 0;
-
+        int x = 0;
+        int y = 0;
+        Scanner fileScanner;
         try {
             fileScanner = new Scanner(new File(fileName));
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        try{
             int i = 0;
             while (fileScanner.hasNextLine()) {
-
-                i = 0;
                 String line = fileScanner.nextLine();
-                Scanner lineScann = fileScanner = new Scanner(line);
-                String[] splited = line.split(" ");
-
+                String[] splited = line.split("\\s+");
+                data[i] = new double[splited.length];
                 for(int j = 0 ; j < splited.length; j++){
-                    data[i][j] = Double.parseDouble(splited[j]);
+                    data[i][j] = Double.parseDouble(splited[j] + "");
                 }
-
                 i++;
             }
-        }
-        catch (Exception e){
+            fileScanner.close();
+        } catch (Exception e){
             System.out.println("error => " + e.getMessage());
         }
-        fileScanner.close();
-
         return data;
     }
 
+    public static double[] avgEachDay(double[][] a){
+        double sum = 0;
+        double[] sums = new double[7];
+
+        for(c = 0; c < a.length; c++){
+            sum = 0;
+            for(r = 0; r < a[c].length; r++){
+                sum += a[c][r];
+                sums[c] = sum/a[c].length;
+            }
+        }
+        return sums;
+    }
+
+    public static double[] avgTemp(double[][] a){
+        double sum = 0;
+        double[] sums = new double[7];
+
+        for (c = 0; c < a.length; c++){
+            for (r = 0; r < a[c].length; r++){
+                sums[r] += a[c][r];
+            }
+        }
+        return sums;
+    }
+
     public static void main(String[] args) throws IOException{
-        //double[][] data = dataOnArray("/Users/pepe/Documents/Development/cs2lab2/src/data2.txt");
         double[][] d = dataOnArray("/Users/pepe/Documents/Development/cs2lab2/src/data2.txt");
 
-        for(x = 0; x < d.length; x++ ){
-            System.out.println(" " + d[x]);
-        }
-//        for(c = 0; c < data.length; c++){
-//
-//            for(r = 0; r < data[c].length; r++){
-//               System.out.print(" "+ data[c][r]);
-//            }
-//            System.out.println();
-//        }
+        for(c = 0; c < d.length; c++){
 
+            for(r = 0; r < d[c].length; r++){
+               System.out.print(" "+ d[c][r]);
+            }
+            System.out.println();
+        }
+
+        methodSeparator(20);
+
+        System.out.println("The average temperature of a patient each day from Monday to Sunday:");
+        double[] eachDay = avgEachDay(d);
+
+        for (x = 0; x < eachDay.length; x++){
+            System.out.println("Average for " + days[x] + ": " + df.format(eachDay[x]));
+        }
+
+        methodSeparator(20);
+
+        System.out.println("The average temperature of a patient at times covered in the data:");
+        double[] eachTemp = avgTemp(d);
+
+        for (x = 0; x < eachTemp.length; x++){
+            System.out.println("The average for T" + (x+1) + " : " + df.format(eachTemp[x]));
+        }
     }
 }
