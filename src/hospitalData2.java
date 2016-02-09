@@ -19,23 +19,32 @@ public class hospitalData2 {
         System.out.println("");
     }
 
+    public static int Longest(double[][] a){
+        int longest = a[0].length;
+        for (x = 1; x < a.length; x++){
+            if (a[x].length > longest)
+                longest = a[x].length;
+        }
+        return longest;
+    }
+
     /// Methods
     public static double[][] dataOnArray(String fileName){
         double[][] data = new double[7][];
-        int x = 0;
-        int y = 0;
         Scanner fileScanner;
+
         try {
             fileScanner = new Scanner(new File(fileName));
-            int i = 0;
+             x = 0;
             while (fileScanner.hasNextLine()) {
                 String line = fileScanner.nextLine();
                 String[] splited = line.split("\\s+");
-                data[i] = new double[splited.length];
-                for(int j = 0 ; j < splited.length; j++){
-                    data[i][j] = Double.parseDouble(splited[j] + "");
+                data[x] = new double[splited.length];
+
+                for(y = 0 ; y < splited.length; y++){
+                    data[x][y] = Double.parseDouble(splited[y] + "");
                 }
-                i++;
+                x++;
             }
             fileScanner.close();
         } catch (Exception e){
@@ -60,14 +69,17 @@ public class hospitalData2 {
 
     public static double[] avgTemp(double[][] a){
         double sum = 0;
-        double[] sums = new double[7];
+        int len = Longest(a);
+        double[] sumx = new double[len];
 
         for (c = 0; c < a.length; c++){
+
             for (r = 0; r < a[c].length; r++){
-                sums[r] += a[c][r];
+                sumx[r] += a[c][r];
             }
         }
-        return sums;
+
+        return sumx;
     }
 
     public static void main(String[] args) throws IOException{
